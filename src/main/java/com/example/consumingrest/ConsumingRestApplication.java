@@ -25,6 +25,8 @@ import java.util.List;
 @SpringBootApplication
 public class ConsumingRestApplication {
 
+	private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
+
 	private static final Logger log = LoggerFactory.getLogger(ConsumingRestApplication.class);
 
 	public static void main(String[] args) {
@@ -41,18 +43,18 @@ public class ConsumingRestApplication {
 		return args -> {
 
 			// Get a post
-			Post post = restTemplate.getForObject("https://jsonplaceholder.typicode.com/todos/1", Post.class);
+			Post post = restTemplate.getForObject(BASE_URL + "/todos/1", Post.class);
 
 			log.info(post.toString());
 
 			// Get a comment
-			Comment comment = restTemplate.getForObject("https://jsonplaceholder.typicode.com/comments/1", Comment.class);
+			Comment comment = restTemplate.getForObject(BASE_URL + "/comments/1", Comment.class);
 
 			log.info((comment.toString()));
 
 			// Get album
 
-			Album album = restTemplate.getForObject("https://jsonplaceholder.typicode.com/albums/1", Album.class);
+			Album album = restTemplate.getForObject(BASE_URL + "/albums/1", Album.class);
 
 			log.info((album.toString()));
 
@@ -62,12 +64,12 @@ public class ConsumingRestApplication {
 			post.setUserId(2);
 			post.setId(102);
 
-			ResponseEntity<String> result = restTemplate.postForEntity("https://jsonplaceholder.typicode.com/posts", userPost.convertToJson().toString(), String.class);
+			ResponseEntity<String> result = restTemplate.postForEntity(BASE_URL + "/posts", userPost.convertToJson().toString(), String.class);
 
 			log.info(result.getBody());
 
 			// Delete
-			restTemplate.delete("https://jsonplaceholder.typicode.com/posts/1");
+			restTemplate.delete(BASE_URL + "/posts/1");
 
 			// Get all posts
 			List<Post> posts = getAllPosts(restTemplate);
@@ -80,7 +82,7 @@ public class ConsumingRestApplication {
 	}
 
 	private List<Post> getAllPosts(RestTemplate restTemplate) {
-		ResponseEntity<List<Post>> responseEntity = restTemplate.exchange("https://jsonplaceholder.typicode.com/posts", HttpMethod.GET, null, new ParameterizedTypeReference<List<Post>>() {
+		ResponseEntity<List<Post>> responseEntity = restTemplate.exchange(BASE_URL + "/posts", HttpMethod.GET, null, new ParameterizedTypeReference<List<Post>>() {
 			@Override
 			public Type getType() {
 				return super.getType();
