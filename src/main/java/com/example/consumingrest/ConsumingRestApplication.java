@@ -14,8 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.FileWriter;
@@ -67,13 +66,14 @@ public class ConsumingRestApplication {
 
 			log.info(result.getBody());
 
+			// Delete
+			restTemplate.delete("https://jsonplaceholder.typicode.com/posts/1");
+
 			// Get all posts
 			List<Post> posts = getAllPosts(restTemplate);
 
 			// Save posts to file
 			savePostsToFile(posts);
-
-
 
 		};
 
